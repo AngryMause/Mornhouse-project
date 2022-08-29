@@ -1,51 +1,60 @@
 package com.example.mornhouseproject.ui.fragment.mainscreens
 
+import android.util.Log
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.example.mornhouseproject.App
 import com.example.mornhouseproject.model.ResponseModel
 import com.example.mornhouseproject.network.Repository
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 
-class MainViewModel() : ViewModel() {
+class MainViewModel(private val repository: Repository) : ViewModel() {
+    private val myList = mutableListOf<ResponseModel>()
 
-    val factFlow = flow<Int> {
-        val startValue = 10
-        var currentVal = startValue
-        emit(currentVal)
-        while (currentVal > 0) {
-            delay(1000L)
-            currentVal--
-            emit(currentVal)
+
+    suspend fun getResponse(): Flow<List<ResponseModel>> = flow {
+        val que = Volley.newRequestQueue(App.instance)
+        val url = "http://numbersapi.com/random/math"
+        val stringRequest = StringRequest(Request.Method.GET,
+            url,
+            { response ->
+                myList.add(ResponseModel(response.toString()))
+                Log.d("Repo", myList.size.toString())
+            },
+            null)
+        que.add(stringRequest)
+        delay(1000L)
+        emit(myList)
+    }
+
+    val factFlow = flow<Repository> {
+        repository.sendToAPI().collect {
 
         }
     }
 
-    init {
-        collectFlow()
-    }
+//    init {
+//        sendToAPI()
+//    }
 
-    private fun collectFlow() {
-        viewModelScope.launch {
-            factFlow.collect { timer ->
-                println("Timer  "+timer.toString())
-            }
-        }
-    }
+//    fun sendToAPI(): Flow<String> = flow {
+//        val que = Volley.newRequestQueue(App.instance)
+//        val url = "http://numbersapi.com/27"
+//        val stringRequest = StringRequest(Request.Method.GET,
+//            url,
+//            { respons ->
+//                Log.d("Reoi", respons.toString())
+//            },
+//            null)
+//        que.add(stringRequest)
+//
+//    }
 
 
 }
 
-
-//    private val _stateFlow = MutableStateFlow(ResponseModel(""))
-//    val stateFlow: StateFlow<ResponseModel> get() = _stateFlow
-//
-//    init {
-//        viewModelScope.launch {
-//            stateFlow.value.number = repo.sendToAPI().toString()
-//        }
-//    }
-//}

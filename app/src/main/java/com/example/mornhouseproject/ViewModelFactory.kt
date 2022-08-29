@@ -9,7 +9,8 @@ import com.example.mornhouseproject.ui.fragment.mainscreens.MainViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 
-class ViewModelFactory( private val app: App,
+class ViewModelFactory(
+    private val app: App,
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         return super.create(modelClass, extras)
@@ -31,6 +32,7 @@ class ViewModelFactory( private val app: App,
 
 
 fun Fragment.factory() = ViewModelFactory(requireContext().applicationContext as App)
+
 fun <T> Flow<T>.launchWhenStarted(lifecycleCoroutineScope: LifecycleCoroutineScope) {
     lifecycleCoroutineScope.launchWhenStarted {
         this@launchWhenStarted.collect()

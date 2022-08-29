@@ -1,13 +1,15 @@
 package com.example.mornhouseproject
 
-import android.app.Activity
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mornhouseproject.databinding.ItemAdapterBinding
 import com.example.mornhouseproject.model.ResponseModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runInterruptible
+import kotlinx.coroutines.withContext
 
 class MyAdapter : ListAdapter<ResponseModel, MyAdapter.MyHolder>(ResponseModel.ResponseDifUtil) {
 
@@ -15,9 +17,6 @@ class MyAdapter : ListAdapter<ResponseModel, MyAdapter.MyHolder>(ResponseModel.R
         RecyclerView.ViewHolder(binding.root) {
         fun bind(fact: String) {
             binding.factTv.text = fact
-            binding.factTv.setOnClickListener {
-
-            }
         }
     }
 
