@@ -18,31 +18,31 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/my_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="8dp"
-            android:text="Get Fact" />
-
-        <Button
             android:id="@+id/random_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="8dp"
-            android:text="Random Fact" />
+            android:text="@string/random_fact" />
+
+        <Button
+            android:id="@+id/fact_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/fact" />
     </LinearLayout>
 
 
     <TextView
         android:id="@+id/tv_my"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:padding="2dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="Some fact"
         android:fontFamily="sans-serif-medium"
+        android:hint="Some fact"
+        android:padding="2dp"
         android:textAlignment="center"
         android:textColor="@color/purple_200"
         android:textSize="23sp" />

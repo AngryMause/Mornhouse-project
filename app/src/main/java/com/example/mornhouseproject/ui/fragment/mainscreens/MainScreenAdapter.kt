@@ -1,22 +1,24 @@
-package com.example.mornhouseproject
+package com.example.mornhouseproject.ui.fragment.mainscreens
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mornhouseproject.databinding.ItemAdapterBinding
-import com.example.mornhouseproject.model.ResponseModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runInterruptible
-import kotlinx.coroutines.withContext
+import com.example.mornhouseproject.model.NumberFactModel
 
-class MyAdapter : ListAdapter<ResponseModel, MyAdapter.MyHolder>(ResponseModel.ResponseDifUtil) {
+class MainScreenAdapter() :
+    ListAdapter<NumberFactModel, MainScreenAdapter.MyHolder>(NumberFactModel.ResponseDifUtil) {
 
     class MyHolder(private val binding: ItemAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(fact: String) {
-            binding.factTv.text = fact
+        fun bind(fact: NumberFactModel) {
+            binding.factTv.text = fact.fact
+            binding.factTv.setOnClickListener {
+                val action = MainScreenFragmentDirections.actionMainFragmentToSecondFragment(fact)
+                itemView.findNavController().navigate(action)
+            }
         }
     }
 
@@ -27,9 +29,13 @@ class MyAdapter : ListAdapter<ResponseModel, MyAdapter.MyHolder>(ResponseModel.R
     }
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
-        holder.bind(getItem(position).number)
-
+        val numberFactList = getItem(position)
+        holder.bind(numberFactList)
     }
 
 
 }
+
+
+
+

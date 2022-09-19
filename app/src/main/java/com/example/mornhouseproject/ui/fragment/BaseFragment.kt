@@ -11,7 +11,6 @@ typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
 open class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) : Fragment() {
 
-
     private var _binding: VB? = null
     protected val binding get() = _binding!!
 
@@ -21,12 +20,10 @@ open class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) : Fr
         savedInstanceState: Bundle?,
     ): View? {
         _binding = inflate.invoke(inflater, container, false)
-
         return binding.root
     }
-
     override fun onDestroy() {
         super.onDestroy()
-        _binding = null!!
+        _binding = null
     }
 }

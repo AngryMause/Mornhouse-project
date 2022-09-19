@@ -1,60 +1,55 @@
 package com.example.mornhouseproject.ui.fragment.mainscreens
 
-import android.util.Log
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.android.volley.Request
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import com.example.mornhouseproject.App
-import com.example.mornhouseproject.model.ResponseModel
-import com.example.mornhouseproject.network.Repository
+import androidx.lifecycle.viewModelScope
+import com.example.mornhouseproject.model.NumberFactModel
+import com.example.mornhouseproject.network.MaineRepository
+import com.example.mornhouseproject.room.DBRepository
+import com.example.mornhouseproject.room.NumbersFactBDEntity
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(private val repository: Repository) : ViewModel() {
-    private val myList = mutableListOf<ResponseModel>()
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val dbRepository: DBRepository,
+    private val repository: MaineRepository,
+) : ViewModel() {
+    private val _factList = MutableLiveData<List<NumberFactModel>>()
+    val fact: LiveData<List<NumberFactModel>> get() = _factList
 
-
-    suspend fun getResponse(): Flow<List<ResponseModel>> = flow {
-        val que = Volley.newRequestQueue(App.instance)
-        val url = "http://numbersapi.com/random/math"
-        val stringRequest = StringRequest(Request.Method.GET,
-            url,
-            { response ->
-                myList.add(ResponseModel(response.toString()))
-                Log.d("Repo", myList.size.toString())
-            },
-            null)
-        que.add(stringRequest)
-        delay(1000L)
-        emit(myList)
-    }
-
-    val factFlow = flow<Repository> {
-        repository.sendToAPI().collect {
-
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            dbRepository.listFact().collect {
+                _factList.postValue(it)
+            }
         }
     }
 
-//    init {
-//        sendToAPI()
-//    }
+    suspend fun getNumberFact(number: Int) {
+        val data = repository.getNumberFact(number)
+        saveNumberFactToDB(NumbersFactBDEntity.fromApiModel(data))
+    }
 
-//    fun sendToAPI(): Flow<String> = flow {
-//        val que = Volley.newRequestQueue(App.instance)
-//        val url = "http://numbersapi.com/27"
-//        val stringRequest = StringRequest(Request.Method.GET,
-//            url,
-//            { respons ->
-//                Log.d("Reoi", respons.toString())
-//            },
-//            null)
-//        que.add(stringRequest)
-//
-//    }
 
+    suspend fun getRandomFact() {
+        val data = repository.getRandomFact()
+        saveNumberFactToDB(NumbersFactBDEntity.fromApiModel(data))
+    }
+
+    private suspend fun saveNumberFactToDB(numbersFactBDEntity: NumbersFactBDEntity) {
+        dbRepository.addFact(numbersFactBDEntity)
+    }
 
 }
+
+
+
 
