@@ -27,10 +27,7 @@ class MainScreenAdapter() :
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         val numberFactList = getItem(position)
-        with(holder) {
-            bind(numberFactList)
-
-        }
+        holder.bind(numberFactList)
         holder.itemView.apply {
             setOnClickListener {
                 myListener.let {

@@ -28,13 +28,6 @@ data class NumbersFactBDEntity(
 
 
     companion object {
-        fun fromNumberModel(numberFactModel: NumberFactModel): NumbersFactBDEntity =
-            NumbersFactBDEntity(
-                id = 0,
-                number = numberFactModel.number,
-                fact = numberFactModel.fact
-            )
-
         fun fromApiModel(apiModel: ApiModel): NumbersFactBDEntity =
             NumbersFactBDEntity(
                 id = 0,

@@ -18,19 +18,12 @@ class DBRepository @Inject constructor(
             }
     }
 
-    fun factFromDao(id: Long): Flow<NumberFactModel> {
-        return factDao.getById(id)
-            .map { factDBEntity ->
-                factDBEntity.toNumberFactModel()
-            }
-    }
-
     suspend fun deleteFromDao(id: Long) {
         factDao.deleteFact(id)
     }
 
 
-    suspend fun addFact(numbersFactBDEntity: NumbersFactBDEntity) {
+    suspend fun addFactToDB(numbersFactBDEntity: NumbersFactBDEntity) {
         factDao.addToDao(numbersFactBDEntity)
     }
 

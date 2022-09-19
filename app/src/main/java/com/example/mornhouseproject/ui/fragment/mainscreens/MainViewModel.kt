@@ -41,7 +41,7 @@ class MainViewModel @Inject constructor(
     }
 
     private suspend fun saveNumberFactToDB(numbersFactBDEntity: NumbersFactBDEntity) {
-        dbRepository.addFact(numbersFactBDEntity)
+        dbRepository.addFactToDB(numbersFactBDEntity)
     }
 
 }
