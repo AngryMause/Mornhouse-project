@@ -2,6 +2,7 @@ package com.example.mornhouseproject.ui.fragment.secondscreens
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
@@ -22,8 +23,10 @@ class SecondFragment : BaseFragment<FragmentSecondBinding>(FragmentSecondBinding
         super.onViewCreated(view, savedInstanceState)
         binding.factTv.text = args.factDescription.fact
         binding.number.text = args.factDescription.number.toString()
-
         binding.deleteBtn.setOnClickListener {
+            Toast.makeText(requireContext(),
+                "Fact about number: ${args.factDescription.number} was delete", Toast.LENGTH_SHORT)
+                .show()
             viewModel.viewModelScope.launch {
                 viewModel.showDescription(args.factDescription.id)
             }

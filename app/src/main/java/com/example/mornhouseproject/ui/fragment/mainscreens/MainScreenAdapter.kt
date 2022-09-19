@@ -1,6 +1,7 @@
 package com.example.mornhouseproject.ui.fragment.mainscreens
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
@@ -13,12 +14,8 @@ class MainScreenAdapter() :
 
     class MyHolder(private val binding: ItemAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(fact: NumberFactModel) {
-            binding.factTv.text = fact.fact
-            binding.factTv.setOnClickListener {
-                val action = MainScreenFragmentDirections.actionMainFragmentToSecondFragment(fact)
-                itemView.findNavController().navigate(action)
-            }
+        fun bind(numberFact: NumberFactModel) {
+            binding.factTv.text = numberFact.fact
         }
     }
 
@@ -30,11 +27,30 @@ class MainScreenAdapter() :
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         val numberFactList = getItem(position)
-        holder.bind(numberFactList)
+        with(holder) {
+            bind(numberFactList)
+
+        }
+        holder.itemView.apply {
+            setOnClickListener {
+                myListener.let {
+                    it?.invoke(numberFactList)
+                }
+            }
+        }
+    }
+
+
+    private var myListener: ((NumberFactModel) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (NumberFactModel) -> Unit) {
+        myListener = listener
     }
 
 
 }
+
+
 
 
 

@@ -7,11 +7,10 @@
     <TextView
         android:id="@+id/fact_tv"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="25dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="6dp"
         android:background="@color/teal_200"
-        android:text="Some Fact"
         android:textSize="16sp"
         android:textStyle="bold" />
 
