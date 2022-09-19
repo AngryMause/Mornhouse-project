@@ -2,7 +2,6 @@ package com.example.mornhouseproject.ui.fragment.secondscreens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mornhouseproject.model.NumberFactModel
 import com.example.mornhouseproject.room.DBRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

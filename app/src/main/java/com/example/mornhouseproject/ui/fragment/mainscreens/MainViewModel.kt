@@ -9,11 +9,7 @@ import com.example.mornhouseproject.network.MaineRepository
 import com.example.mornhouseproject.room.DBRepository
 import com.example.mornhouseproject.room.NumbersFactBDEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
